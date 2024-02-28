@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 function BookList() {
     const [books, setBooks] = useState([]);
-    const [favorites, setFavorites] = useState([]);
+    const [records, setRecords] = useState(books);
 
   
     useEffect(() => {
@@ -15,7 +15,14 @@ function BookList() {
         .catch(error => console.error('Error fetching books:', error));
     }, []);
   
+    const Filter=(event)=>{
+      setRecords(books.filter(f=>f.name.toLowerCase().includes(event.target.value)))
+  }
+
     return (
+      <div>
+
+      <input type='next' className='form-control' onChange={Filter} placeholder='Search by lower letters of the book names'></input>
         <table style={{marginTop:"100px",marginLeft:"100px", wordSpacing:"1px"}}>
         <thead>
           <tr style={{fontWeight:"revert-layer", backgroundColor:"blue"}}>
@@ -28,20 +35,20 @@ function BookList() {
           </tr>
         </thead>
         <tbody>
-          {books.map(book => (
-            <tr  key={book.id}>
-              <td>{book.name}</td>
-              <td>{book.description}</td>
-              <td>{book.author}</td>
-              <td>{book.publishDate}</td>
+          {records.map((d) => (
+            <tr  key={d.id}>
+              <td>{d.name}</td>
+              <td>{d.description}</td>
+              <td>{d.author}</td>
+              <td>{d.publishDate}</td>
               <td>
-                <img style={{width:"200px" ,height:"150px"}} src={book.imageUrl}></img></td>
+                <img style={{width:"200px" ,height:"150px"}} src={d.imageUrl}></img></td>
               {/* Add more columns as needed */}
             </tr>
           ))}
         </tbody>
-
       </table>
+      </div>
     );
   }
   
