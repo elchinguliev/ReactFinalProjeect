@@ -7,7 +7,9 @@ function BookList({addToFavourites}) {
     const [books, setBooks] = useState([]);
     const [records, setRecords] = useState(books);
     const [comments, setComments] = useState({});
+    const [noMatch, setNoMatch] = useState(false);
 
+    
   
     useEffect(() => {
       fetch('https://localhost:7088/api/Book/GetBook')
@@ -33,9 +35,21 @@ function BookList({addToFavourites}) {
       updatedComments[bookId].splice(index, 1);
       setComments(updatedComments);
   };
-    const Filter=(event)=>{
-      setRecords(books.filter(f=>f.name.toLowerCase().includes(event.target.value)))
+  const Filter = (event) => {
+    const filteredBooks = books.filter(f => f.name.toLowerCase().includes(event.target.value));
+    setRecords(filteredBooks);
+    setNoMatch(filteredBooks.length === 0); // Set noMatch state based on the filtered books
   }
+
+  const handleAddToFavorites = (book) => {
+    // Here you can define your logic to add books to favorites
+    // For now, let's assume addToFavourites is a prop function
+    // that handles adding books to favorites
+    // You can use React Router's useHistory hook to navigate to the Favorites page
+    // import { useHistory } from 'react-router-dom';
+    // const history = useHistory();
+    // history.push('/favorites');
+  };
 
     return (
       <div>
@@ -63,14 +77,6 @@ function BookList({addToFavourites}) {
               </td>
 
               <td>
-                  {/* Render comments for this book */}
-                  {/* {comments[d.id] && comments[d.id].map((comment, index) => (
-                  <div key={index}>
-                       {comment}
-                        <button style={{marginLeft:"100px"}} onClick={() => handleCommentRemove(d.id, index)}>Remove</button>
-                                    </div>
-                         ))}
-                        Add comment form */}
                         <form onSubmit={(e) => {
                         e.preventDefault();
                         const newComment = e.target.comment.value;
@@ -89,9 +95,23 @@ function BookList({addToFavourites}) {
                          ))}
                           </form>
               </td>
+              <td>
+              <Link to="/favorites">
+                  <button>Add to Favorites</button>
+                </Link>
+              </td>
+
+              
 
             </tr>
           ))}
+             {noMatch && 
+                <tr>
+                  <td
+                   td colSpan="6" style={{fontSize:"30px", backgroundColor:"red",fontWeight:"bold", padding:"auto"}}>Can not find such a book
+                  </td>
+              
+                </tr>}
         </tbody>
       </table>
       </div>
