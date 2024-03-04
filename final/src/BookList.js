@@ -42,13 +42,7 @@ function BookList({addToFavourites}) {
   }
 
   const handleAddToFavorites = (book) => {
-    // Here you can define your logic to add books to favorites
-    // For now, let's assume addToFavourites is a prop function
-    // that handles adding books to favorites
-    // You can use React Router's useHistory hook to navigate to the Favorites page
-    // import { useHistory } from 'react-router-dom';
-    // const history = useHistory();
-    // history.push('/favorites');
+ 
   };
 
     return (
